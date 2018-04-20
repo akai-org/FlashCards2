@@ -25,9 +25,9 @@ public class DialogFrag extends android.support.v4.app.DialogFragment implements
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_dialog, container, false);
 
-       Button addButton=(Button) view.findViewById(R.id.addButton);
+        Button addButton=(Button) view.findViewById(R.id.addButton);
         tableName=(EditText) view.findViewById(R.id.tablename35);
-       addButton.setOnClickListener(this);
+        addButton.setOnClickListener(this);
         return view;
 
     }
@@ -38,11 +38,11 @@ public class DialogFrag extends android.support.v4.app.DialogFragment implements
         super.onAttach((context));
         comunicator= (Comunicator) a;
     }
-  public  void onClick(View view){
+    public  void onClick(View view){
 
-      String tableNameFromEditText=new String(tableName.getText().toString());
-      comunicator.messageFromFragment(tableNameFromEditText);
-      getDialog().dismiss();
+        String tableNameFromEditText=new String(tableName.getText().toString());
+        comunicator.messageFromFragment(tableNameFromEditText);
+        getDialog().dismiss();
 
     }
     interface Comunicator{

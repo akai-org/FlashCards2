@@ -21,8 +21,8 @@ public class CustomAdapter extends ArrayAdapter implements View.OnClickListener 
         this.modelItems = resource;
     }
     private static class ViewHolder {
-       static TextView name;
-       static CheckBox check;
+        static TextView name;
+        static CheckBox check;
     }
 
 
