@@ -2,6 +2,7 @@ package com.example.wijasyka.flashcards2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ public class DialogFrag extends android.support.v4.app.DialogFragment implements
 
     Comunicator comunicator;
     EditText tableName;
-
+    int whatKindOfDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,11 +36,10 @@ public class DialogFrag extends android.support.v4.app.DialogFragment implements
     public void onAttach(Context context){
         Activity a;
         a=(Activity)context;
-        super.onAttach((context));
+        super.onAttach(context);
         comunicator= (Comunicator) a;
     }
     public  void onClick(View view){
-
         String tableNameFromEditText=new String(tableName.getText().toString());
         comunicator.messageFromFragment(tableNameFromEditText);
         getDialog().dismiss();
@@ -48,6 +48,5 @@ public class DialogFrag extends android.support.v4.app.DialogFragment implements
     interface Comunicator{
         public void messageFromFragment(String message);
     }
-
 
 }

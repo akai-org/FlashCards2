@@ -8,6 +8,8 @@
     <string name="p_hint">national word</string>
     <string name="alert_dialog_ok">ok</string>
     <string name="databaseError">zla nazwa!!!!</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="pathError">zla nazwa ścieżki!!!!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_Dialog_Add_From_File_tableName">Dodaj nazwę zestawu słówek, gdzie mają być umieszczone słowa z pliku</string>
+    <string name="hint_Dialog_Add_From_File_path">Podaj ścieżkę do pliku</string>
 </resources>

@@ -28,17 +28,12 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import static android.R.id.list;
 import static java.lang.Boolean.FALSE;
 
-public class listActivity extends AppCompatActivity implements DialogFrag.Comunicator {
+public class listActivity extends AppCompatActivity implements DialogFrag.Comunicator, DialogAddFromFileFrag.ComunicatorAddFromFile {
     FlashDataBase db=new FlashDataBase(this);
     ListView listView;
     ArrayList<ModelForListing> items;
@@ -74,6 +69,9 @@ public class listActivity extends AppCompatActivity implements DialogFrag.Comuni
     public void onClickAddSetButton(View view){
         FragmentManager manager=getSupportFragmentManager();
         DialogFrag dialog=new DialogFrag();
+        Bundle b= new Bundle();
+        b.putInt("whatKindOfDialog",1);
+        dialog.setArguments(b);
         dialog.show(manager,"adadad");
 
 
@@ -94,9 +92,9 @@ public class listActivity extends AppCompatActivity implements DialogFrag.Comuni
     }
     public void onClickAddFromFile(View view){
 
-        SQLiteDatabase db = this.db.getWritableDatabase();
-        db.beginTransaction();
-        try {
+        /*SQLiteDatabase db = this.db.getWritableDatabase();
+        db.beginTransaction();*/
+
             ///////////////////////////////////read storage permission
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -109,8 +107,11 @@ public class listActivity extends AppCompatActivity implements DialogFrag.Comuni
                             1);
                 }
             }
+        FragmentManager manager=getSupportFragmentManager();
+        DialogAddFromFileFrag dialog=new DialogAddFromFileFrag();
+        dialog.show(manager,"adadad");
             /////////////////////////////////////////////////////////////////////
-            File sdcard = Environment.getExternalStorageDirectory();
+           /* File sdcard = Environment.getExternalStorageDirectory();
             File file = new File(sdcard,"nowy.txt");
             BufferedReader buffer = new BufferedReader(new FileReader(file));
             String line = "";
@@ -129,7 +130,7 @@ public class listActivity extends AppCompatActivity implements DialogFrag.Comuni
             this.showDialogs(R.string.databaseError);
         }
         db.setTransactionSuccessful();
-        db.endTransaction();
+        db.endTransaction();*/
     }
 
     @Override
@@ -148,6 +149,33 @@ public class listActivity extends AppCompatActivity implements DialogFrag.Comuni
             this.showDialogs(R.string.databaseError);
         }
     }
+    public void messageFromAddFromFileFragment(String path,String tableName){
+        SQLiteDatabase db = this.db.getWritableDatabase();
+        db.beginTransaction();
+        File sdcard = Environment.getExternalStorageDirectory();
+        File file = new File(sdcard,path);
+        try {
+            BufferedReader buffer = new BufferedReader(new FileReader(file));
+            String line = "";
+            while ((line = buffer.readLine()) != null) {
+                String[] colums = line.split(",");
+                if (colums.length != 2) {
+                    Log.d("CSVParser", "Skipping Bad CSV Row");
+                    continue;
+                }
+                String[] str = line.split(",", 2);
+                String nationalWord = str[1].toString();
+                String foreginWord = str[0].toString();
+                this.db.addWord(foreginWord, nationalWord, tableName);
+            }
+        }
+        catch(IOException exception){
+            this.showDialogs(R.string.pathError);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
 
 
 
